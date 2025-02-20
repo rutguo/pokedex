@@ -24,7 +24,7 @@ A simple REST API built with TypeScript and Express that fetches all the first g
    npm install
    ```
 
-3. **Setup the enviroment**
+3. **Setup the enviroment with a `.env` file**
 
    ```sh
    PORT=3000
