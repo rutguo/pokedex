@@ -1,15 +1,15 @@
 export interface Pokemon {
   id: number;
   name: string;
-  type: string;
+  type: string[];
   stats: Statistics;
 }
 
-export interface Statistics {
+interface Statistics {
   hp: number;
   attack: number;
   defense: number;
-  special_attack: number;
-  special_defense: number;
+  specialAttack: number;
+  specialDefense: number;
   speed: number;
 }
