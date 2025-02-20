@@ -1,0 +1,42 @@
+{
+  "name": "pokedex",
+  "version": "0.0.1",
+  "description": "A simple REST API built with TypeScript and Express that fetches all the first generation Pokémon. It provides Pokémon names, types, and base stats in a structured JSON format. 🎮",
+  "keywords": [
+    "api",
+    "json",
+    "pokemon",
+    "express",
+    "typescript"
+  ],
+  "homepage": "https://github.com/rutguo/pokedex#readme",
+  "bugs": {
+    "url": "https://github.com/rutguo/pokedex/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rutguo/pokedex.git"
+  },
+  "license": "MIT",
+  "author": "rutguo",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node -r dotenv/config dist/app.js",
+    "dev": "nodemon -r dotenv/config src/app.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.4",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
