@@ -36,3 +36,17 @@ A simple REST API built with TypeScript and Express that fetches all the first g
    npm run build
    npm start
    ```
+
+## 📡 API Endpoints
+
+**Get all Pokémon**
+
+```sh
+GET /pokemon
+```
+
+**Get Pokémon by ID**
+
+```sh
+GET /pokemon/:id
+```
