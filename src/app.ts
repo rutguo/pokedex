@@ -1,6 +1,5 @@
 import express, { Application, Request, Response } from "express";
-import { Pokemon } from "./data/types";
-import { pokemon } from "./data/pokemon";
+import { getPokemonById } from "./database/db";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -8,6 +7,7 @@ import cors from "cors";
 dotenv.config();
 
 const app: Application = express();
+app.use(express.json());
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 
@@ -16,33 +16,24 @@ app.get("/", (_req: Request, res: Response<{ message: string }>) => {
   res.json({ message: "Welcome to the Pokédex! 🎮" });
 });
 
-// Get all Pokémon
-app.get("/pokemon", (_req: Request, res: Response<Pokemon[]>) => {
-  res.json(pokemon);
-});
-
 // Get Pokémon by ID
-app.get(
-  "/pokemon/:id",
-  (
-    req: Request<{ id: string }>,
-    res: Response<Pokemon | { error: string }>
-  ) => {
-    const pokemonId = parseInt(req.params.id, 10);
+app.get("/pokemon/:id", async (req: Request, res) => {
+  const id = parseInt(req.params.id, 10);
 
-    if (isNaN(pokemonId)) {
-      return res.status(400).json({ error: "Invalid Pokémon ID" });
-    }
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "Invalid Pokémon ID" });
+  }
 
-    const p = pokemon.find((p: Pokemon) => p.id === pokemonId);
-
-    if (!p) {
+  try {
+    const pokemon = await getPokemonById(id);
+    if (!pokemon) {
       return res.status(404).json({ error: "Pokémon not found" });
     }
-
-    return res.json(p);
+    res.json(pokemon);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
-);
+});
 
 // Start the server
 app.listen(PORT, () =>
