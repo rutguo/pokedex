@@ -1,7 +1,8 @@
 import express, { Application, Request, Response } from "express";
-import { getPokemonById } from "./database/db";
+import { getAllPokemon, getPokemonById } from "./database/db";
 import dotenv from "dotenv";
 import cors from "cors";
+import { Pokemon } from "./database/types";
 
 // Load environment variables
 dotenv.config();
@@ -25,10 +26,20 @@ app.get("/pokemon/:id", async (req: Request, res) => {
   }
 
   try {
-    const pokemon = await getPokemonById(id);
+    const pokemon: Pokemon = await getPokemonById(id);
     if (!pokemon) {
       return res.status(404).json({ error: "Pokémon not found" });
     }
+    res.json(pokemon);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Get all Pokémon
+app.get("/pokemon", async (_req, res) => {
+  try {
+    const pokemon: Pokemon[] = await getAllPokemon();
     res.json(pokemon);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

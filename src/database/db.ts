@@ -28,9 +28,33 @@ export const getPokemonById = async (id: number) => {
   try {
     const { rows } = await pool.query(query, [id]);
     if (rows.length === 0) {
-      return null; // No Pokémon found
+      return null;
     }
-    return rows[0]; // JSON output with id, name and types-array
+    return rows[0];
+  } catch (error) {
+    console.error("Error fetching Pokémon:", error);
+    throw error;
+  }
+};
+
+export const getAllPokemon = async () => {
+  const query = `
+    SELECT 
+      p.id, 
+      p.name, 
+      json_agg(t.name) AS types
+    FROM pokemon p
+    JOIN pokemon_types pt ON p.id = pt.pokemon_id
+    JOIN type t ON pt.type_id = t.id
+    GROUP BY p.id, p.name;
+  `;
+
+  try {
+    const { rows } = await pool.query(query);
+    if (rows.length === 0) {
+      return []; // No Pokémon found
+    }
+    return rows;
   } catch (error) {
     console.error("Error fetching Pokémon:", error);
     throw error;
